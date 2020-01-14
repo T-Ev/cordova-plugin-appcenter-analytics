@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-plugin-appcenter-shared"
+<plugin id="cordova-plugin-appcenter-analytics"
         version="0.5.1"
         xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <name>App Center shared code for Cordova</name>
+    <name>App Center Analytics for Cordova</name>
     <description>
-        Provides Microsoft Azure App Center shared functionality for Cordova
+        Provides Microsoft Azure App Center Analytics client for Cordova
     </description>
     <license>MIT</license>
-    <keywords>microsoft, azure, app center, shared</keywords>
+    <keywords>microsoft, azure, app center, analytics</keywords>
     <repo>https://github.com/Microsoft/appcenter-sdk-cordova</repo>
     <issue>https://github.com/Microsoft/appcenter-sdk-cordova/issues</issue>
 
@@ -18,52 +18,56 @@
     <!-- Cordova 6.4.0 and iOS 4.3.0 are required for Cocoapods support -->
     <engine name="cordova" version=">=6.4.0" />
     <engine name="cordova-ios" version=">=4.3.0" />
-    
-    <js-module name="AppCenter" src="www/AppCenter.js">
-        <clobbers target="AppCenter" />
+
+    <dependency id="cordova-plugin-appcenter-shared" version="0.5.1"/>
+
+    <js-module name="Analytics" src="www/Analytics.js">
+        <clobbers target="AppCenter.Analytics" />
     </js-module>
 
     <platform name="android">
-        <source-file src="src/android/AppCenterShared.java"
-                     target-dir="src/com/microsoft/azure/mobile/cordova" />
-
-        <source-file src="src/android/AppCenterUtils.java"
-                     target-dir="src/com/microsoft/azure/mobile/cordova" />
-
-        <source-file src="src/android/AppCenterSharedPlugin.java"
-                target-dir="src/com/microsoft/azure/mobile/cordova" />
-
-         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="AppCenterShared">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="AppCenterAnalytics">
                 <param name="onload" value="true" />
                 <param name="android-package"
-                       value="com.microsoft.azure.mobile.cordova.AppCenterSharedPlugin"/>
+                       value="com.microsoft.azure.mobile.cordova.AppCenterAnalyticsPlugin"/>
             </feature>
         </config-file>
-        <framework src="com.microsoft.appcenter:appcenter:2.4.1" />
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <!-- TODO: check if permission below is needed -->
+            <uses-permission android:name="android.permission.INTERNET" />
+        </config-file>
+
+        <framework src="com.microsoft.appcenter:appcenter-analytics:2.4.1" />
+
+        <source-file src="src/android/AppCenterAnalyticsPlugin.java"
+                     target-dir="src/com/microsoft/azure/mobile/cordova" />
+
+        <source-file src="src/android/AnalyticsUtils.java"
+                     target-dir="src/com/microsoft/azure/mobile/cordova" />
+
     </platform>
 
     <platform name="ios">
-        <header-file src="src/ios/AppCenterShared.h" />
-        <source-file src="src/ios/AppCenterShared.m" />
-          <config-file target="config.xml" parent="/*">
-            <feature name="AppCenterShared">
-                <param name="ios-package" value="AppCenterSharedPlugin" />
+        <config-file target="config.xml" parent="/*">
+            <feature name="AppCenterAnalytics">
+                <param name="ios-package" value="AppCenterAnalyticsPlugin" />
                 <param name="onload" value="true" />
             </feature>
         </config-file>
 
-        <header-file src="src/ios/AppCenterSharedPlugin.h" />
-        <source-file src="src/ios/AppCenterSharedPlugin.m" />
+        <header-file src="src/ios/AppCenterAnalyticsPlugin.h" />
+        <source-file src="src/ios/AppCenterAnalyticsPlugin.m" />
+
         <podspec>
             <config>
                 <source url="https://github.com/CocoaPods/Specs.git"/>
             </config>
             <pods use-frameworks="true">
-                <pod name="AppCenter" spec="~> 2.5.0" />
+                <pod name="AppCenter/Analytics" spec="~> 2.5.0" />
             </pods>
         </podspec>
-        <!--framework src="AppCenter" type="podspec" spec="~> 2.5.0" /-->
+        <framework src="AppCenter" type="podspec" spec="~> 2.5.0" />
     </platform>
 </plugin>
-
