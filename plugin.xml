@@ -62,12 +62,12 @@
 
         <podspec>
             <config>
-                <source url="https://github.com/CocoaPods/Specs.git"/>
+                <source url="https://cdn.cocoapods.org/"/>
             </config>
             <pods use-frameworks="true">
                 <pod name="AppCenter/Analytics" spec="~> 2.5.0" />
             </pods>
         </podspec>
-        <!--framework src="AppCenter" type="podspec" spec="~> 2.5.0" /-->
+        <framework src="AppCenter" type="podspec" spec="~> 2.5.0" />
     </platform>
 </plugin>
